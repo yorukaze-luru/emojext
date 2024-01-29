@@ -1,6 +1,20 @@
 import discord
 import re
 
+class Emojext:
+    def __init__(self, message):
+        self.dm = []
+        self.public = []
+        self.server = []
+        self.do_emojis = self.play_emoji(message)
+        
+    def play_emoji(self, message):
+        if type(message.channel) != discord.DMChannel:
+            server_emoji = [e for e in message.guild.emojis]
+        else:
+            server_emoji = []
+
+
 def emojext(message):
     if type(message.channel) != discord.DMChannel:
         server_emoji = [e for e in message.guild.emojis]
