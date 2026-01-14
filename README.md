@@ -38,7 +38,8 @@ async def on_message(message):
         return
     exclude = ["🎉", "<:ng:123456789012345678>"]
     handler = Emojext(message, exclude=exclude)
-    await handler.react(emoji_type="all")```
+    await handler.react(emoji_type="all")
+```
 
 ---
 
