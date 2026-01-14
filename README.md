@@ -18,15 +18,15 @@ emojext は、Discord メッセージから Unicode 絵文字とカスタム絵�
 
 GitHub から直接インストール：
 
-`bash
+```bash
 pip install git+https://github.com/yorukaze-luru/emojext.git
-`
+```
 
 ---
 
 🚀 使い方
 
-`python
+```python
 from discord.ext import commands
 from emojext import Emojext
 
@@ -38,7 +38,7 @@ async def on_message(message):
         return
     exclude = ["🎉", "<:ng:123456789012345678>"]
     handler = Emojext(message, exclude=exclude)
-    await handler.react(emoji_type="all")`
+    await handler.react(emoji_type="all")```
 
 ---
 
