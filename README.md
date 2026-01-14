@@ -19,7 +19,7 @@ emojext は、Discord メッセージから Unicode 絵文字とカスタム絵�
 GitHub から直接インストール：
 
 `bash
-pip install git+https://github.com/your-username/emojext.git
+pip install git+https://github.com/yorukaze-luru/emojext.git
 `
 
 ---
@@ -36,11 +36,9 @@ bot = commands.Bot(command_prefix='!', intents=discord.Intents.all())
 async def on_message(message):
     if message.author.bot:
         return
-
     exclude = ["🎉", "<:ng:123456789012345678>"]
     handler = Emojext(message, exclude=exclude)
-    await handler.react(emoji_type="all")
-`
+    await handler.react(emoji_type="all")`
 
 ---
 
@@ -67,10 +65,3 @@ react(emoji_type="all")
 
 - Python 3.8 以上
 - discord.py 2.0 以上
-
----
-
-📄 ライセンス
-
-MIT License © 2026 Ayumu
-`
