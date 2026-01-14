@@ -1,11 +1,11 @@
 import re
-from typing import List, Literal
+from typing import List, Literal, Optional
 import discord
 
 class Emojext:
     """
     Discordメッセージから絵文字を抽出し、リアクションとして付けるクラス。
-    インスタンス生成時にメッセージを渡すと、自動で絵文字を抽出・保存します。
+    除外したい絵文字をオプションで指定可能。
     """
 
     _UNICODE_PATTERN = re.compile(
@@ -27,11 +27,13 @@ class Emojext:
 
     _CUSTOM_PATTERN = re.compile(r'<a?:\w+:\d+>')
 
-    def __init__(self, message: discord.Message):
+    def __init__(self, message: discord.Message, exclude: Optional[List[str]] = None):
         """
         メッセージを受け取り、絵文字を抽出して保存する。
+        除外リストが指定されていれば、それを除いた絵文字のみ保持する。
         """
         self.message = message
+        self.exclude = set(exclude or [])
         self.unicode_emojis: List[str] = []
         self.custom_emojis: List[str] = []
         self._extract_emojis()
@@ -39,11 +41,15 @@ class Emojext:
     def _extract_emojis(self) -> None:
         """
         メッセージ内容から絵文字を抽出して保存する（内部用）。
+        除外リストに含まれる絵文字は除く。
         """
         content = self.message.content
         unicode_matches = self._UNICODE_PATTERN.findall(content)
-        self.unicode_emojis = [''.join(match) for match in unicode_matches]
-        self.custom_emojis = self._CUSTOM_PATTERN.findall(content)
+        all_unicode = [''.join(match) for match in unicode_matches]
+        all_custom = self._CUSTOM_PATTERN.findall(content)
+
+        self.unicode_emojis = [e for e in all_unicode if e not in self.exclude]
+        self.custom_emojis = [e for e in all_custom if e not in self.exclude]
 
     async def react(
         self,
